@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | {% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <section class="section">
+                    <div class="columns">
+                        <div class="column is-8 is-offset-2">
+                            {% for post in object_list %}
+                            {% for category in post.categories.all %}
+                                <!-- <div class="content is-medium">
+                                <a href="{% url 'post_detail' category.slug  post.slug %}">
+                                        {% if post.image %}
+                                            <figure class="image">
+                                                <img src="{{ post.image.url }}">
+                                            </figure>
+                                        {% endif %}
+
+                                        <h2 class="subtitle is-4">{{ post.created_at|timesince }} ago</h2>
+                                        <h1 class="title">{{ post.title }}</h1>
+                                        <p>{{ post.intro }}</p>
+                                    </a>
+                                </div> -->
+
+                                <div class="card mb-6" >
+                                    <a href="{% url 'post_detail' category.slug  post.slug %}">
+                                    <div class="row g-0">
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                            <h5 class="card-title">{{ post.title }}</h5>
+                                            <p class="card-text">{{ post.intro }}</p>
+                                            <p class="card-text"><small class="text-body-secondary">{{ post.created_at|timesince }} ago</small></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            {% if post.image %}
+                                            <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="...">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                                  </div>
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+{% endblock %}

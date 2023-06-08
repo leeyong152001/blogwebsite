@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Add Post {% endblock %}
+
+{% block content %}
+    <h2 class="alert alert-success mt-3 mx-auto">POST</h2>
+    <div class="container mt-3">
+        {% for message in messages %}
+        <p  class="alert alert-success mt-3">
+            {{ message }}
+        </p>
+        {% endfor %}
+
+        {% if post %}
+        <form action="{% url 'update_post' post.slug %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Title:</label>
+                <input type="text" id="disabledTextInput" value="{{post.title}}" name="title" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Slug:</label>
+                <input type="text" id="disabledTextInput" value="{{post.intro}}" name="intro" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Body:</label>
+                <input type="text" id="disabledTextInput" value="{{post.body}}" name="body" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Category:</label>
+                <select name="category">
+                    {% for category in categories %}
+                    <option value="{{category.title}}">{{category.title}}</option>
+                    {% endfor %}
+                  </select>
+            </div>
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Status:</label>
+                <select name="status">
+                    {% if post.status == 'active' %}
+                    <option value="active">active</option>
+                    <option value="draft">draft</option>
+                    {% else %}
+                    <option value="draft">draft</option>
+                    <option value="active">active</option>
+                    {% endif %}
+                  </select>
+            </div>
+            <button class="btn btn-warning" type="submit">Edit</button>
+        </form>
+
+        {% else %}
+
+        <form action="{% url 'add_post' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <!-- {{ form.media }} -->
+            <div class="mb-3">
+                <a href="{% url 'add_category' %}">Add Category</a>
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %} Category | Dashboard {% endblock %}
+
+{% block content %}
+    <h2 class="alert alert-success mt-3">CATEGORY</h2>
+    <div class="container mt-3">
+        {% for message in messages %}
+        <p  class="alert alert-success mt-3">
+            {{ message }}
+        </p>
+        {% endfor %}
+
+        {% if category %}
+        <form action="{% url 'update_category' category.slug %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Title:</label>
+                <input type="text" id="disabledTextInput" value="{{category.title}}" name="title" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Slug:</label>
+                <input type="text" id="disabledTextInput" value="{{category.slug}}" name="slug" class="form-control">
+            </div>
+            <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+        {% else %}
+
+        <form action="{% url 'add_category' %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Title:</label>
+                <input type="text" id="disabledTextInput" name="title" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Slug:</label>
+                <input type="text" id="disabledTextInput" name="slug" class="form-control">
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+        {% endif %}
+        {% if user.username == "admin" %}
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            {% for category in categories %}
+            <tbody>
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ category.title }}</td>
+                <td>{{ category.slug }}</td>
+                <td>
+                    <a href="{% url 'edit_category' category.slug %}" class="btn btn-warning">Edit </a>
+                </td>
+                <td>
+                    <a href="{% url 'delete_category' category.slug %}" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+            {% endfor %}
+          </table>
+          {% else %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Slug</th>
+              </tr>
+            </thead>
+            {% for category in categories %}
+            <tbody>
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ category.title }}</td>
+                <td>{{ category.slug }}</td>
+              </tr>
+            </tbody>
+            {% endfor %}
+          </table>
+          {% endif %}
+    </div>
+{% endblock %}

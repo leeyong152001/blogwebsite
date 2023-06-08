@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}DashBoard {% endblock %}
+
+{% block content %}
+    <div>
+        <h1>DashBoard </h1>
+
+        <hr>
+        <h3>Post</h3>
+        <p><a href="{% url 'add_post' %}">Add Post</a></p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Intro</th>
+                <th scope="col">Status</th>
+                <th scope="col">Author</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            {% for post in posts %}
+            <tbody>
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ post.title }}</td>
+                <td>{{ post.intro }}</td>
+                <td>{{ post.status }}</td>
+                <td>{{ post.author }}</td>
+                <td>
+                    <a href="{% url 'edit_post' post.slug %}" class="btn btn-warning">Edit </a>
+                </td>
+                <td>
+                    <a href="{% url 'delete_post' post.slug %}" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+            {% endfor %}
+          </table>
+    </div>
+    <hr>
+
+    <h2>Tần số xem :</h2>
+    <div>
+      <img src="/static/img/chart.png" alt="" style="width:auto; height:600px">
+    </div>
+
+    <br>
+
+{% endblock %}
